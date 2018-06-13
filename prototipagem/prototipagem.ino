@@ -1,54 +1,31 @@
 #include <SPI.h>
 #include <MFRC522.h>
-#include <Servo.h> 
+#include <Servo.h>
 
 Servo microservo9g;
+//#define SS_PIN 10;
+//#define RST_PIN 9;
 
-// Definicoes pino modulo RC522
-MFRC522 mfrc522(SS_PIN, RST_PIN); 
-
-#define SS_PIN 10
-#define RST_PIN 9
+int pos = 0;
 
 void setup() {
-  // define que o servo esta ligado a porta digital 3
-  microservo9g.attach(3);
+  // define que o servo esta ligado a porta digital 6
+  microservo9g.attach(6);
   // move o servo para a posicao inicial
-  microservo9g.write(90);
+  microservo9g.write(0);
   // inicia a serial
   Serial.begin(9600);
   // inicia  SPI bus
   SPI.begin();
-  // inicia MFRC522
-  mfrc522.PCD_Init(); 
-  // Mensagens iniciais no serial monitor
-  //  Serial.println("Aproxime o seu cartao do leitor...");
-  //  Serial.println();
+
+
 }
 
 void loop() {
-  if (conteudo.substring(1) == "D8 4B 12 22")
-  {
-    microservo9g.write(-90);
-    digitalWrite(led_liberado, HIGH);
-    Serial.println("Cartao1 - Acesso liberado !");
-    Serial.println();
-    delay(3000);
-    microservo9g.write(90);
-    digitalWrite(led_liberado, LOW);
+  Serial.print("microservo9g1: "+microservo9g.read());
+  for (pos = microservo9g.read(); pos < 180; pos += 1) {
+    microservo9g.write(pos);
+    delay(20);
   }
-  if (conteudo.substring(1) == "87 4B DC 8A")
-  {
-    Serial.println("Cartao2 - Acesso negado !!");
-    Serial.println();
-    // Pisca o led vermelho
-    for (int i= 1; i<5 ; i++)
-    {
-      digitalWrite(led_negado, HIGH);
-      delay(200);
-      digitalWrite(led_negado, LOW);
-      delay(200);
-    }
-  }
-  delay(1000);
+  microservo9g.detach(); 
 }
