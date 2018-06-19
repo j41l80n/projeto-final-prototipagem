@@ -19,8 +19,6 @@ void setup() {
   Serial.begin(9600);
   // inicia  SPI bus
   SPI.begin();
-  Serial.println("Aproxime o seu cartao do leitor...");
-  Serial.println();
 }
 
 void loop() {
@@ -28,7 +26,6 @@ void loop() {
   {
     return;
   }
-  // Select one of the cards
   if ( ! mfrc522.PICC_ReadCardSerial())
   {
     return;
@@ -62,7 +59,6 @@ void loop() {
   {
    
     
-
   }
   delay(500);
 }
