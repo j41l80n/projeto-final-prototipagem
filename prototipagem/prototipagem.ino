@@ -2,11 +2,14 @@
 #include <MFRC522.h>
 #include <Servo.h>
 
-Servo microservo9g;
 #define SS_PIN 10
 #define RST_PIN 9
+
+Servo microservo9g;
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
+int ledVermelho = 13;
+int ledAzul = 13;
 int pos = 0;
 
 void setup() {
@@ -15,6 +18,9 @@ void setup() {
   microservo9g.attach(6);
   // move o servo para a posicao inicial
   microservo9g.write(0);
+  //definie o pino como saida
+  pinMode(ledVermelho, OUTPUT);
+  pinMode(ledAzul, OUTPUT);
   // inicia a serial
   Serial.begin(9600);
   // inicia  SPI bus
