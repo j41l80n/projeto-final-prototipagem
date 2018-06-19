@@ -8,8 +8,8 @@
 Servo microservo9g;
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-int ledVermelho = 13;
-int ledAzul = 13;
+int ledVermelho = 4;
+int ledAzul = 2;
 int pos = 0;
 
 void setup() {
@@ -49,26 +49,25 @@ void loop() {
     conteudo.concat(String(mfrc522.uid.uidByte[i], HEX));
   }
   Serial.println();
-  Serial.print("Mensagem : ");
+  Serial.print("Identificador de Usuario: ");
   conteudo.toUpperCase();
-  //usuario cadastrado
+  // usuario cadastrado
   if (conteudo.substring(1) == "ED 78 03 CA")
   {
+    digitalWrite(ledAzul, HIGH);
     for (pos = microservo9g.read(); pos < 180; pos += 1) {
       microservo9g.write(pos);
       delay(20);
     }
-    digitalWrite(ledAzul, HIGH);
-    delay(1000);
+    delay(2000);
+    digitalWrite(ledVermelho, LOW);
     microservo9g.detach();
   }
-  //usuario nao cadastrado
+  // usuario nao cadastrado
   if (conteudo.substring(1) == "BD 9B 06 7D")
   {
-    digitalWrite(ledVermelho, HIGH);
-    delay(1000);
+        digitalWrite(ledVermelho, HIGH);
+        delay(2000);
   }
-  digitalWrite(ledAzul, LOW);
-  digitalWrite(ledAzul, LOW);
   delay(500);
 }
