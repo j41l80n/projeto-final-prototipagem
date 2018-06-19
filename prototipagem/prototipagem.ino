@@ -58,13 +58,17 @@ void loop() {
       microservo9g.write(pos);
       delay(20);
     }
+    digitalWrite(ledAzul, HIGH);
+    delay(1000);
     microservo9g.detach();
   }
   //usuario nao cadastrado
   if (conteudo.substring(1) == "BD 9B 06 7D")
   {
-   
-    
+    digitalWrite(ledVermelho, HIGH);
+    delay(1000);
   }
+  digitalWrite(ledAzul, LOW);
+  digitalWrite(ledAzul, LOW);
   delay(500);
 }
