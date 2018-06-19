@@ -13,7 +13,7 @@ int ledAzul = 2;
 int pos = 0;
 
 void setup() {
-  mfrc522.PCD_Init(); // Inicia MFRC522
+    mfrc522.PCD_Init(); // Inicia MFRC522
   // define que o servo esta ligado a porta digital 6
   microservo9g.attach(6);
   // move o servo para a posicao inicial
@@ -25,6 +25,7 @@ void setup() {
   Serial.begin(9600);
   // inicia  SPI bus
   SPI.begin();
+  Serial.print("Identificador de Usuario: ");
 }
 
 void loop() {
@@ -48,7 +49,7 @@ void loop() {
     conteudo.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
     conteudo.concat(String(mfrc522.uid.uidByte[i], HEX));
   }
-  Serial.println();
+  Serial.println(conteudo);
   Serial.print("Identificador de Usuario: ");
   conteudo.toUpperCase();
   // usuario cadastrado
@@ -63,11 +64,13 @@ void loop() {
     digitalWrite(ledVermelho, LOW);
     microservo9g.detach();
   }
-  // usuario nao cadastrado
-  if (conteudo.substring(1) == "BD 9B 06 7D")
-  {
-        digitalWrite(ledVermelho, HIGH);
-        delay(2000);
-  }
+  
+  //  digitalWrite(ledVermelho, HIGH);
+  //  digitalWrite(ledAzul, HIGH);
   delay(500);
 }
+
+void usuarioPermitido(){
+
+  
+  }
