@@ -11,11 +11,11 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 int ledVermelho = 4;
 int ledAzul = 2;
 int pos = 0;
+String conteudo = "";
 
 void setup() {
-    mfrc522.PCD_Init(); // Inicia MFRC522
+  mfrc522.PCD_Init(); // Inicia MFRC522
   // define que o servo esta ligado a porta digital 6
-  microservo9g.attach(6);
   // move o servo para a posicao inicial
   microservo9g.write(0);
   //definie o pino como saida
@@ -25,7 +25,7 @@ void setup() {
   Serial.begin(9600);
   // inicia  SPI bus
   SPI.begin();
-  Serial.print("Identificador de Usuario: ");
+  //Serial.print("Identificador de Usuario: ");
 }
 
 void loop() {
@@ -40,7 +40,7 @@ void loop() {
 
   //mostra UID na serial
   Serial.print("UID da tag :");
-  String conteudo = "";
+
   byte letra;
   for (byte i = 0; i < mfrc522.uid.size; i++)
   {
@@ -49,28 +49,43 @@ void loop() {
     conteudo.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
     conteudo.concat(String(mfrc522.uid.uidByte[i], HEX));
   }
+
   Serial.println(conteudo);
   Serial.print("Identificador de Usuario: ");
   conteudo.toUpperCase();
-  // usuario cadastrado
+
   if (conteudo.substring(1) == "ED 78 03 CA")
   {
-    digitalWrite(ledAzul, HIGH);
-    for (pos = microservo9g.read(); pos < 180; pos += 1) {
-      microservo9g.write(pos);
-      delay(20);
-    }
-    delay(2000);
-    digitalWrite(ledVermelho, LOW);
-    microservo9g.detach();
+    usuarioPermitido();
   }
-  
-  //  digitalWrite(ledVermelho, HIGH);
-  //  digitalWrite(ledAzul, HIGH);
-  delay(500);
+  else {
+    usuarioPermitido();
+
+  }
+
+  delay(2000);
 }
 
-void usuarioPermitido(){
+void usuarioPermitido() {
+  // usuario cadastrado
 
-  
+  microservo9g.attach(6);
+  digitalWrite(ledAzul, HIGH);
+  for (pos = microservo9g.read(); pos < 180; pos += 1) {
+    microservo9g.write(pos);
+    delay(20);
   }
+  //delay(2000);
+  digitalWrite(ledVermelho, LOW);
+  microservo9g.detach();
+
+}
+
+void usuarioNaoPermitido() {
+  // usuario nao cadastrado
+  // if (conteudo.substring(1) == "BD 9B 06 7D")
+  // {
+  digitalWrite(ledVermelho, HIGH);
+  // delay(2000);
+  // }
+}
