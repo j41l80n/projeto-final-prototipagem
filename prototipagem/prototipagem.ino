@@ -14,18 +14,13 @@ int pos = 0;
 String conteudo = "";
 
 void setup() {
-  mfrc522.PCD_Init(); // Inicia MFRC522
-  // define que o servo esta ligado a porta digital 6
-  // move o servo para a posicao inicial
-  microservo9g.write(0);
-  //definie o pino como saida
   pinMode(ledVermelho, OUTPUT);
   pinMode(ledAzul, OUTPUT);
   // inicia a serial
   Serial.begin(9600);
   // inicia  SPI bus
   SPI.begin();
-  //Serial.print("Identificador de Usuario: ");
+  mfrc522.PCD_Init();
 }
 
 void loop() {
@@ -38,10 +33,10 @@ void loop() {
     return;
   }
 
-  //mostra UID na serial
   Serial.print("UID da tag :");
 
   byte letra;
+  
   for (byte i = 0; i < mfrc522.uid.size; i++)
   {
     Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
@@ -54,38 +49,27 @@ void loop() {
   Serial.print("Identificador de Usuario: ");
   conteudo.toUpperCase();
 
-  if (conteudo.substring(1) == "ED 78 03 CA")
+  if (conteudo != "ED 78 03 CA")
   {
+    Serial.println(conteudo);
     usuarioPermitido();
   }
   else {
-    usuarioPermitido();
-
+    digitalWrite(ledVermelho, HIGH);
   }
-
+  conteudo = "";
   delay(2000);
+  digitalWrite(ledVermelho, LOW);
 }
 
 void usuarioPermitido() {
-  // usuario cadastrado
-
   microservo9g.attach(6);
+  microservo9g.write(0);
   digitalWrite(ledAzul, HIGH);
   for (pos = microservo9g.read(); pos < 180; pos += 1) {
     microservo9g.write(pos);
     delay(20);
   }
-  //delay(2000);
-  digitalWrite(ledVermelho, LOW);
+  digitalWrite(ledAzul, LOW);
   microservo9g.detach();
-
-}
-
-void usuarioNaoPermitido() {
-  // usuario nao cadastrado
-  // if (conteudo.substring(1) == "BD 9B 06 7D")
-  // {
-  digitalWrite(ledVermelho, HIGH);
-  // delay(2000);
-  // }
 }
