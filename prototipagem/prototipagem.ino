@@ -11,16 +11,14 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 int ledVermelho = 4;
 int ledAzul = 2;
 int pos = 0;
-String conteudo = "";
 
 void setup() {
-  pinMode(ledVermelho, OUTPUT);
-  pinMode(ledAzul, OUTPUT);
-  // inicia a serial
   Serial.begin(9600);
   // inicia  SPI bus
   SPI.begin();
   mfrc522.PCD_Init();
+  pinMode(ledVermelho, OUTPUT);
+  pinMode(ledAzul, OUTPUT);
 }
 
 void loop() {
@@ -33,10 +31,8 @@ void loop() {
     return;
   }
 
-  Serial.print("UID da tag :");
+  String conteudo = "";
 
-  byte letra;
-  
   for (byte i = 0; i < mfrc522.uid.size; i++)
   {
     Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
@@ -44,32 +40,25 @@ void loop() {
     conteudo.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
     conteudo.concat(String(mfrc522.uid.uidByte[i], HEX));
   }
-
-  Serial.println(conteudo);
-  Serial.print("Identificador de Usuario: ");
+  
   conteudo.toUpperCase();
-
-  if (conteudo != "ED 78 03 CA")
+  Serial.print("["+conteudo.substring(1)+"]");
+  if (conteudo.substring(1) == "66 CA BC E8")
   {
-    Serial.println(conteudo);
-    usuarioPermitido();
+    microservo9g.attach(6);
+    microservo9g.write(0);
+    digitalWrite(ledAzul, HIGH);
+    for (pos = microservo9g.read(); pos < 180; pos += 1) {
+      microservo9g.write(pos);
+      delay(20);
+    }
+    digitalWrite(ledAzul, LOW);
+    microservo9g.detach();
   }
   else {
     digitalWrite(ledVermelho, HIGH);
   }
-  conteudo = "";
   delay(2000);
   digitalWrite(ledVermelho, LOW);
 }
 
-void usuarioPermitido() {
-  microservo9g.attach(6);
-  microservo9g.write(0);
-  digitalWrite(ledAzul, HIGH);
-  for (pos = microservo9g.read(); pos < 180; pos += 1) {
-    microservo9g.write(pos);
-    delay(20);
-  }
-  digitalWrite(ledAzul, LOW);
-  microservo9g.detach();
-}
