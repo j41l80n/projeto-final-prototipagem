@@ -12,6 +12,16 @@ Projeto apresentado à Universidade Federal do Rio Grande do Norte (UFRN), na di
 
 ## STL
 a definir (teste)
-<script src="/stls/part-studio-1-part-2.stl"></script>
+
+<STLViewer
+	url='/stls/part-studio-1-part-2.stl'
+	width={400}
+	height={400}
+	modelColor='#B92C2C'
+	backgroundColor='#EAEAEA'
+	rotate={true}
+	orbitControls={true}
+/>
+
 ## CONFECÇÃO PARTES 3D
 a inseir
