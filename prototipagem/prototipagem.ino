@@ -13,12 +13,12 @@ int ledAzul = 2;
 int pos = 0;
 
 void setup() {
-  // inicia  SPI bus
-  SPI.begin();
   Serial.begin(9600);
+  SPI.begin();
   mfrc522.PCD_Init();
   pinMode(ledVermelho, OUTPUT);
   pinMode(ledAzul, OUTPUT);
+  Serial.print("teste");
 }
 
 void loop() {
@@ -40,9 +40,9 @@ void loop() {
     conteudo.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
     conteudo.concat(String(mfrc522.uid.uidByte[i], HEX));
   }
-
+  
   conteudo.toUpperCase();
-  Serial.print("[" + conteudo.substring(1) + "]");
+  Serial.print("["+conteudo.substring(1)+"]");
   if (conteudo.substring(1) == "66 CA BC E8")
   {
     microservo9g.attach(6);
@@ -61,4 +61,3 @@ void loop() {
   delay(2000);
   digitalWrite(ledVermelho, LOW);
 }
-
