@@ -10,8 +10,8 @@ Projeto apresentado à Universidade Federal do Rio Grande do Norte (UFRN), na di
 ## PLACA DE CIRCUITO IMPRESSO (Printed Circuit Board PCB)
 <img src="/imagens/pcb.png" width="400" height="400">
 
-## STL
-a definir (teste)
-<script src="/stls/part-studio-1-part-2.stl"></script>
 ## CONFECÇÃO PARTES 3D
-a inseir
+ainda não impressas
+
+## MONTAGEM DA PLACA COM COMPONETNES FINAIS
+<img src="/imagens/montagem_final.jpg" width="450" height="280">
