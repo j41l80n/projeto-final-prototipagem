@@ -11,7 +11,7 @@ Projeto apresentado à Universidade Federal do Rio Grande do Norte (UFRN), na di
 <img src="/imagens/pcb.png" width="400" height="400">
 
 ## CONFECÇÃO PARTES 3D
-ainda não impressas
+(em breve)
 
 ## MONTAGEM DA PLACA COM COMPONETNES FINAIS
 <img src="/imagens/montagem_final.jpg" width="450" height="280">
